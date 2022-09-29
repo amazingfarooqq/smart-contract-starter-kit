@@ -1,11 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./openzepplin/contracts/security/Pausable.sol";
-import "./openzepplin/contracts/utils/Counters.sol";
-import "./openzepplin/contracts/utils/math/SafeMath.sol";
-import "./openzepplin/contracts/token/ERC20/IERC20.sol";
+import "./openzepplin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract NFT {
-  
+contract NFT is ERC721URIStorage {
+    uint public tokenCount;
+
+    constructor() ERC721("DApp NFT", "DAPP"){}
+
+
+    function mint(string memory _tokenURI) external returns(uint) {
+        tokenCount ++;
+        _safeMint(msg.sender, tokenCount);
+        _setTokenURI(tokenCount, _tokenURI);
+        return(tokenCount);
+    }
 }
